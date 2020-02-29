@@ -1,15 +1,14 @@
-import React from 'react'
-
+import React from 'react';
+import axios from 'axios'
 
 class SignUp extends React.Component {
 
     state = {
         info : {
             name: '',
+            password: '',
             phone: '',
             email: '',
-            password: '',
-            confirmPassword: '',
             location: ''
         }
     }
@@ -25,20 +24,12 @@ class SignUp extends React.Component {
 
     onSubmit = e => {
         e.preventDefault()
-        const {password, confirmPassword} = this.state.info;
-
-        if (password !== confirmPassword) {
-            alert('Re-enter Password')
-        } else {
-            // axios.post(``)
-            // .then(res => console.log(res))
-            // .catch(err => console.log(err))
-        }
-
         
-
+        axios.post('https://african-marketplace-bw-1.herokuapp.com/api/auth/register', this.state.info)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        this.props.history.push('/login')
     }
-
 
 
     render(){
@@ -49,14 +40,24 @@ class SignUp extends React.Component {
                     <input 
                     type='text'
                     name='name'
+                    value={this.state.info.name}
                     onChange={this.onHandle}
                     maxLength={8}
+                    />
+
+                    <label>Password</label>
+                    <input 
+                    type='password'
+                    name='password'
+                    value={this.state.info.password}
+                    onChange={this.onHandle}
                     />
 
                     <label>Phone</label>
                     <input 
                     type='number'
                     name='phone'
+                    value={this.state.info.phone}
                     onChange={this.onHandle}
                     />
 
@@ -64,20 +65,7 @@ class SignUp extends React.Component {
                     <input 
                     type='email'
                     name='email'
-                    onChange={this.onHandle}
-                    />
-
-                    <label>Password</label>
-                    <input 
-                    type='password'
-                    name='password'
-                    onChange={this.onHandle}
-                    />
-
-                    <label> Re-enter Password</label>
-                    <input 
-                    type='password'
-                    name='confirmPassword'
+                    value={this.state.info.email}
                     onChange={this.onHandle}
                     />
 
@@ -85,14 +73,12 @@ class SignUp extends React.Component {
                     <input 
                     type='text'
                     name='location'
+                    value={this.state.info.location}
                     onChange={this.onHandle}
                     />
 
                     <button>Sign Up</button>
-
                 </form>
-
-                
             </div>
         )
     }
